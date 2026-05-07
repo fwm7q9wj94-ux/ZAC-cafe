@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375, initial-scale=1.0, maximum-scale=5.0">
+<title>ZAC CAFE — 線上菜單</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brand:    #5C3D2E;
+    --brand-lt: #8B6352;
+    --accent:   #C8A882;
+    --bg:       #FAF8F5;
+    --bg2:      #F2EDE7;
+    --card:     #FFFFFF;
+    --text:     #2C1D14;
+    --text2:    #7A6558;
+    --border:   #E8E0D8;
+    --radius:   14px;
+    --tag-r:    8px;
+    font-size: 16px;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans TC', sans-serif;
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LANG BAR ── */
+  .lang-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 16px;
+    box-shadow: 0 2px 12px rgba(44,29,20,0.18);
+  }
+  .lang-btn {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.7);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+  }
+  .lang-btn.active {
+    background: #fff;
+    color: var(--brand);
+    border-color: #fff;
+    font-weight: 700;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--brand);
+    color: #fff;
+    padding: 28px 20px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: -20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero-since {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .hero-name-zh {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 400;
+    margin-bottom: 18px;
+    letter-spacing: 0.06em;
+  }
+  .hero-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  .hero-info { display: flex; flex-direction: column; gap: 7px; }
+  .hero-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.4;
+  }
+  .hero-icon {
+    width: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    opacity: 0.6;
+  }
+
+  /* ── CATEGORY TABS ── */
+  .cat-tabs {
+    position: sticky;
+    top: 44px;
+    z-index: 90;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .cat-tabs::-webkit-scrollbar { display: none; }
+  .cat-tabs-inner {
+    display: flex;
+    padding: 0 16px;
+    gap: 0;
+    width: max-content;
+    min-width: 100%;
+  }
+  .cat-tab {
+    background: none;
+    border: none;
+    border-bottom: 2.5px solid transparent;
+    padding: 13px 14px 11px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+    transition: color 0.15s, border-color 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .cat-tab.active {
+    color: var(--brand);
+    border-bottom-color: var(--brand);
+    font-weight: 700;
+  }
+
+  /* ── SECTION ── */
+  .section { padding: 0 0 4px; }
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text2);
+    padding: 22px 20px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── CARDS ── */
+  .cards { display: flex; flex-direction: column; gap: 1px; }
+  .card {
+    background: var(--card);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    cursor: pointer;
+    transition: background 0.12s;
+    -webkit-tap-highlight-color: transparent;
+    border-bottom: 1px solid var(--border);
+  }
+  .card:active { background: var(--bg2); }
+  .card-emoji {
+    width: 80px;
+    min-width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    background: var(--bg2);
+    flex-shrink: 0;
+  }
+  .card-body {
+    flex: 1;
+    padding: 14px 14px 14px 16px;
+    min-width: 0;
+  }
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-note {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 7px;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .tag-R  { background: #FFF3CD; color: #856404; }
+  .tag-1  { background: #FFE8E8; color: #C0392B; }
+  .tag-2  { background: #FFD5D5; color: #C0392B; }
+  .tag-3  { background: #FFCDD2; color: #B71C1C; }
+  .tag-P  { background: #FFF0F6; color: #AD1457; }
+  .tag-B  { background: #FFF8E1; color: #E65100; }
+  .tag-L  { background: #F3E5F5; color: #6A1B9A; }
+  .tag-V  { background: #E8F5E9; color: #2E7D32; }
+  .tag-V5 { background: #F1F8E9; color: #558B2F; }
+  .tag-H  { background: #E8F4FD; color: #1565C0; }
+  .card-price {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--brand);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .card-chevron {
+    color: var(--border);
+    flex-shrink: 0;
+    margin-left: 4px;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44,29,20,0.55);
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.22s;
+    pointer-events: none;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+  .modal-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    width: 100%;
+    max-width: 430px;
+    background: var(--card);
+    border-radius: 24px 24px 0 0;
+    z-index: 201;
+    transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+    max-height: 88vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .modal.show {
+    transform: translateX(-50%) translateY(0);
+  }
+  .modal-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 12px auto 0;
+  }
+  .modal-emoji {
+    font-size: 72px;
+    text-align: center;
+    padding: 20px 0 16px;
+    background: var(--bg2);
+    margin: 12px 16px 0;
+    border-radius: var(--radius);
+  }
+  .modal-body { padding: 20px 20px 40px; }
+  .modal-name {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 14px;
+  }
+  .modal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+  }
+  .modal-price-block {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .modal-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+  }
+  .modal-price-label {
+    font-size: 14px;
+    color: var(--text2);
+  }
+  .modal-price-val {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--brand);
+  }
+  .modal-desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text2);
+  }
+  .modal-note-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin: 14px 0 5px;
+    opacity: 0.7;
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: var(--bg2);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 28px 20px 40px;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── LANG FONTS ── */
+  [data-lang="ja"] { font-family: 'Noto Sans JP', sans-serif; }
+  [data-lang="ko"] { font-family: 'Noto Sans KR', sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- Language Bar -->
+<nav class="lang-bar" role="navigation" aria-label="Language">
+  <button class="lang-btn active" data-lang-btn="zh">繁中</button>
+  <button class="lang-btn" data-lang-btn="en">EN</button>
+  <button class="lang-btn" data-lang-btn="ja">日本語</button>
+  <button class="lang-btn" data-lang-btn="ko">한국어</button>
+  <button class="lang-btn" data-lang-btn="es">ES</button>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="hero-block">
+  <div class="hero-since">Since 1997</div>
+  <div class="hero-name">ZAC CAFE</div>
+  <div class="hero-name-zh" id="hero-name-zh">ZAC 咖啡</div>
+  <div class="hero-divider"></div>
+  <div class="hero-info">
+    <div class="hero-row">
+      <svg class="hero-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6c0 3.5 4.5 8.5 4.5 8.5S12.5 9.5 12.5 6C12.5 3.5 10.5 1.5 8 1.5z"/><circle cx="8" cy="6" r="1.5"/></svg>
+      <span id="info-address">977 花蓮縣豐濱鄉靜浦村8-1號</span>
+    </div>
+    <div class="hero-row">
+      <svg class="hero-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3.5h10v9H3zM6 3.5V2.5h4v1"/><path d="M6 7h4M6 9.5h2.5"/></svg>
+      <span id="info-hours">13:00 – 21:00</span>
+    </div>
+    <div class="hero-row">
+      <svg class="hero-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3.5c0 6 4 9.5 10 9.5 0-2-1-3-2.5-3.5l-1.5 1.5C7.5 10 6 8.5 5 7l1.5-1.5C6 4 5 3 3 3z"/></svg>
+      <span><span id="info-reservation-label">訂位專線</span> 03-425-1598</span>
+    </div>
+  </div>
+</header>
+
+<!-- Category Tabs -->
+<nav class="cat-tabs" id="cat-tabs">
+  <div class="cat-tabs-inner" id="cat-tabs-inner"></div>
+</nav>
+
+<!-- Menu Sections -->
+<main id="menu-main"></main>
+
+<!-- Footer -->
+<footer class="footer" id="footer-block">
+  <div>ZAC CAFE &copy; 1997–2026</div>
+  <div id="footer-addr">977 花蓮縣豐濱鄉靜浦村8-1號</div>
+  <div>03-425-1598</div>
+</footer>
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modal-overlay"></div>
+
+<!-- Modal -->
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="modal-handle"></div>
+  <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+  <div class="modal-emoji" id="modal-emoji"></div>
+  <div class="modal-body">
+    <div class="modal-name" id="modal-name"></div>
+    <div class="modal-tags" id="modal-tags"></div>
+    <div class="modal-price-block" id="modal-price-block"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+
+const storeInfo = {
+  names: {
+    zh: 'ZAC 咖啡', en: 'ZAC CAFE', ja: 'ZAC カフェ', ko: 'ZAC 카페', es: 'CAFÉ ZAC',
+  },
+  since: '1997',
+  address: {
+    zh: '977 花蓮縣豐濱鄉靜浦村8-1號',
+    en: 'No. 8-1, Jingpu Village, Fengbin Township, Hualien County 977',
+    ja: '977 花蓮県豊浜郷静浦村8-1号',
+    ko: '977 화롄현 펑빈향 징푸촌 8-1호',
+    es: 'N.º 8-1, Aldea Jingpu, Municipio Fengbin, Condado de Hualien 977',
+  },
+  phone: '03-425-1598',
+  hours: { zh: '13:00 – 21:00', en: '13:00 – 21:00', ja: '13:00 – 21:00', ko: '13:00 – 21:00', es: '13:00 – 21:00' },
+  reservation: { zh: '訂位專線', en: 'Reservation', ja: 'ご予約', ko: '예약', es: 'Reservas' },
+};
+
+const categories = [
+  { id: 'snack', label: { zh: '零嘴小點', en: 'Snacks', ja: 'おつまみ', ko: '간식', es: 'Aperitivos' } },
+  { id: 'pie',   label: { zh: '鹹派 & 甜塔', en: 'Pies & Tarts', ja: 'キッシュ＆タルト', ko: '키쉬 & 타르트', es: 'Quiches & Tartas' } },
+  { id: 'set',   label: { zh: '精選套餐', en: 'Select Sets', ja: 'セレクトセット', ko: '셀렉트 세트', es: 'Menús Selectos' } },
+  { id: 'combo', label: { zh: '組合套餐', en: 'Combo Sets', ja: 'コンボセット', ko: '콤보 세트', es: 'Combos' } },
+  { id: 'bread', label: { zh: '經典軟法', en: 'Classic Baguette', ja: 'バゲット', ko: '바게트', es: 'Baguettes Clásicas' } },
+];
+
+const tagDefs = {
+  R:  { icon: '⭐', zh: '本店推薦', en: 'Recommended',            ja: 'おすすめ',       ko: '추천',              es: 'Recomendado' },
+  '1':{ icon: '🌶️', zh: '小辣',   en: 'Mild Spicy',              ja: '少し辛い',       ko: '약간 매운',         es: 'Poco picante' },
+  '2':{ icon: '🌶️🌶️', zh: '中辣',en: 'Medium Spicy',            ja: '中辛',           ko: '보통 매운',         es: 'Medio picante' },
+  '3':{ icon: '🔥', zh: '大辣',   en: 'Very Spicy',              ja: '激辛',           ko: '매우 매운',         es: 'Muy picante' },
+  P:  { icon: '🐷', zh: '含豬肉', en: 'Contains Pork',           ja: '豚肉入り',       ko: '돼지고기 포함',     es: 'Contiene cerdo' },
+  B:  { icon: '🐂', zh: '含牛肉', en: 'Contains Beef',           ja: '牛肉入り',       ko: '소고기 포함',       es: 'Contiene ternera' },
+  L:  { icon: '🐑', zh: '含羊肉', en: 'Contains Lamb',           ja: 'ラム入り',       ko: '양고기 포함',       es: 'Contiene cordero' },
+  V:  { icon: '🥬', zh: '素食',   en: 'Vegetarian',              ja: 'ベジタリアン',   ko: '채식',              es: 'Vegetariano' },
+  V5: { icon: '🧄', zh: '五辛素', en: 'Plant-based with Allium', ja: '五葷あり精進',   ko: '오신채 포함 채식',  es: 'Vegetal con aliáceas' },
+  H:  { icon: '☪️', zh: '清真',   en: 'Halal',                   ja: 'ハラール',       ko: '할랄',              es: 'Halal' },
+};
+
+const menuItems = [
+  // snacks
+  { id:'snack-001', category:'snack', names:{zh:'奶油爆米花',en:'Butter Popcorn',ja:'バターポップコーン',ko:'버터 팝콘',es:'Palomitas con Mantequilla'}, price:[{label:null,value:100}], emoji:'🍿', tags:[], note:{zh:'鹽子彈爆米花，讓你好好下酒！一份常常難以控制！',en:'Salt-bomb popcorn — the perfect snack with drinks. One portion is never enough!',ja:'塩味たっぷりのポップコーン。お酒のおつまみに最高！',ko:'짭짤한 팝콘, 술안주로 딱! 한 봉지로는 절대 부족해요!',es:'Palomitas con mucha sal, perfectas para acompañar bebidas. ¡Una ración nunca es suficiente!'} },
+  { id:'snack-002', category:'snack', names:{zh:'火腿起司歐姆蛋',en:'Ham & Cheese Omelette',ja:'ハム＆チーズオムレツ',ko:'햄 치즈 오믈렛',es:'Tortilla de Jamón y Queso'}, price:[{label:null,value:300}], emoji:'🍳', tags:[], note:{zh:'鮮軟蛋捲搭配越南豬肉火腿與濃郁起司，透有隱約的香氣天然甜感加上奶香風。',en:'Silky egg wrap with Vietnamese-style ham and rich cheese, subtly fragrant with a natural sweetness.',ja:'柔らかな卵にベトナム風ハムと濃厚チーズを合わせたオムレツ。',ko:'부드러운 달걀 롤에 베트남 햄과 진한 치즈를 더한 오믈렛.',es:'Tortilla sedosa con jamón al estilo vietnamita y queso rico, con un sutil aroma y dulzura natural.'} },
+  { id:'snack-003', category:'snack', names:{zh:'香烤蕃茄嫩雞翅',en:'Tomato Herb Baked Chicken Wings',ja:'トマトハーブ焼きチキンウィング',ko:'토마토 허브 구운 닭날개',es:'Alitas de Pollo al Tomate y Hierbas'}, price:[{label:null,value:340}], emoji:'🍗', tags:[], note:{zh:'外表酥脆、香體脂肪低，並入特別的秘醬調味，散發誘人的天然香氣。',en:'Crispy outside, tender inside — marinated in our secret sauce with irresistible natural aromas.',ja:'外はカリッと、中はジューシー。秘伝ソースの風味豊かな焼きチキン。',ko:'겉은 바삭, 속은 촉촉. 비밀 소스로 마리네이드해 자연스러운 향이 가득.',es:'Crujientes por fuera, tiernas por dentro — marinadas en nuestra salsa secreta con aromas irresistibles.'} },
+  { id:'snack-004', category:'snack', names:{zh:'乳酪起司四重奏',en:'Four-Cheese Quartet',ja:'チーズ四重奏',ko:'치즈 콰르텟',es:'Cuarteto de Quesos'}, price:[{label:null,value:390}], emoji:'🧀', tags:[], note:{zh:'精選四款濃郁系乳酪，各切三角一片，搭配海鹽、奶香餅乾與巧克力品嘗。',en:'Four rich cheeses, each sliced into wedges, served with sea salt, buttery crackers and chocolate.',ja:'4種の濃厚チーズをウェッジにカット。海塩・バタークラッカー・チョコと共に。',ko:'4가지 진한 치즈를 조각 내어 해염, 버터 크래커, 초콜릿과 함께 즐기는 플래터.',es:'Cuatro quesos intensos en gajos, servidos con sal marina, galletas mantequilladas y chocolate.'} },
+  // pies
+  { id:'pie-001', category:'pie', names:{zh:'培根乳酪派',en:'Bacon & Cheese Quiche',ja:'ベーコン＆チーズキッシュ',ko:'베이컨 치즈 키쉬',es:'Quiche de Bacon y Queso'}, price:[{label:null,value:180}], emoji:'🥧', tags:['R'], note:{zh:'桃山香薰肉片自製乳酪派，以新鮮乳酪融合，乳香入風。',en:'House-made quiche with fragrant smoked bacon and fresh melted cheese — rich and aromatic.',ja:'自家製スモークベーコンと新鮮チーズを使ったキッシュ。',ko:'훈제 베이컨과 신선한 치즈로 만든 홈메이드 키쉬.',es:'Quiche casera con bacon ahumado aromático y queso fresco fundido — rico y delicioso.'} },
+  { id:'pie-002', category:'pie', names:{zh:'青花鮭魚鹹派',en:'Salmon & Gorgonzola Quiche',ja:'サーモン＆ゴルゴンゾーラキッシュ',ko:'연어 고르곤졸라 키쉬',es:'Quiche de Salmón y Gorgonzola'}, price:[{label:null,value:180}], emoji:'🥧', tags:[], note:{zh:'優質新鮮台灣花鮭，搭配藍起司乳酪自製配方，加入大量濃郁的奶香醬。',en:'Fresh Taiwanese salmon with house blue-cheese blend, finished with rich cream sauce.',ja:'台湾産新鮮サーモンにブルーチーズを合わせたキッシュ。',ko:'신선한 대만산 연어에 블루치즈를 더한 홈메이드 키쉬.',es:'Salmón fresco taiwanés con mezcla de queso azul de la casa, acabado con cremosa salsa.'} },
+  { id:'pie-003', category:'pie', names:{zh:'焦糖海鹽核桃塔',en:'Salted Caramel Walnut Tart',ja:'塩キャラメルくるみタルト',ko:'소금 캐러멜 호두 타르트',es:'Tarta de Nueces y Caramelo Salado'}, price:[{label:null,value:180}], emoji:'🍮', tags:[], note:{zh:'特製焦糖液加入大量核桃碎，以海鹽平衡甜度，搭配入口即化的奶油塔皮。',en:'House caramel with crushed walnuts, balanced with sea salt, on a melt-in-your-mouth butter crust.',ja:'自家製キャラメルにくるみをたっぷり加え、海塩でバランスを取ったタルト。',ko:'홈메이드 캐러멜에 호두를 가득 넣고 해염으로 균형을 맞춘 타르트.',es:'Caramelo casero con nueces picadas, equilibrado con sal marina, sobre una masa de mantequilla que se deshace.'} },
+  { id:'pie-004', category:'pie', names:{zh:'奶油蔬菜鹹派',en:'Creamy Veggie Quiche',ja:'クリームベジキッシュ',ko:'크리미 채소 키쉬',es:'Quiche Vegetal Cremosa'}, price:[{label:null,value:150}], emoji:'🥧', tags:['V'], note:{zh:'大量新鮮蔬菜加入自製奶油白醬，搭配凱薩醬或和風醬，濃郁奶香包裹鮮甜蔬菜。',en:'Loaded with fresh vegetables in house cream sauce — choose Caesar or Japanese wafu dressing.',ja:'新鮮野菜をたっぷり使い自家製クリームソースで仕上げたキッシュ。',ko:'신선한 채소를 듬뿍 넣고 홈메이드 크림 소스로 만든 키쉬.',es:'Cargada de verduras frescas en salsa cremosa casera — elige aderezo César o japonés wafu.'} },
+  { id:'pie-005', category:'pie', names:{zh:'香草檸檬塔',en:'Lemon Herb Tart',ja:'レモンハーブタルト',ko:'레몬 허브 타르트',es:'Tarta de Limón y Hierbas'}, price:[{label:null,value:150}], emoji:'🍋', tags:[], note:{zh:'以新鮮檸檬汁加入法式特製奶油醬，佐以清爽的香草與酸甜清新感。',en:'Fresh lemon curd on a French-style butter base, lifted with herbs and topped with fresh cream.',ja:'新鮮レモンカードをフランス風バタークリームに合わせたタルト。',ko:'신선한 레몬 커드를 프랑스식 버터 베이스에 얹은 타르트.',es:'Crema de limón fresco sobre base francesa de mantequilla, realzada con hierbas y nata fresca.'} },
+  // sets
+  { id:'set-001', category:'set', names:{zh:'蘿蔔牛腩燴飯',en:'Braised Beef Brisket & Radish Rice',ja:'大根と牛バラ肉の煮込みご飯',ko:'무 소고기 브리스킷 라이스',es:'Arroz con Pecho de Ternera Estofado y Rábano'}, price:[{label:null,value:260}], emoji:'🍛', tags:['B'], note:{zh:'以蘿蔔、老薑、多種香料大火燉煮的牛腩，口感軟嫩帶有豐富湯汁。',en:'Slow-braised beef brisket with daikon and ginger, tender and richly flavoured.',ja:'大根・生姜・スパイスでじっくり煮込んだ牛バラ。やわらかくコクのある一品。',ko:'무, 생강, 각종 향신료로 푹 끓인 소고기 브리스킷 라이스.',es:'Pecho de ternera estofado a fuego lento con rábano daikon y jengibre, tierno y muy sabroso.'} },
+  { id:'set-002', category:'set', names:{zh:'泰式綠咖哩雞肉飯',en:'Thai Green Curry Chicken Rice',ja:'タイ風グリーンカレーチキンライス',ko:'태국식 그린 커리 치킨 라이스',es:'Arroz con Curry Verde Tailandés y Pollo'}, price:[{label:null,value:280}], emoji:'🍛', tags:['R','1'], note:{zh:'道地泰式料理為基底，搭配特製椰奶香氣，加入大量新鮮蔬菜與嫩雞腿肉。',en:'Authentic Thai base with fragrant coconut milk, fresh vegetables and tender chicken thigh.',ja:'本格タイ料理ベースにココナッツミルクの香りを加えた一品。',ko:'정통 태국 요리에 코코넛 밀크 향을 더한 그린 커리 라이스.',es:'Base tailandesa auténtica con aromático coco, verduras frescas y tierno muslo de pollo.'} },
+  { id:'set-003', category:'set', names:{zh:'義式蕃茄牛肉燴飯',en:'Italian Tomato Beef Stew Rice',ja:'イタリアントマト牛肉煮込みご飯',ko:'이탈리아 토마토 소고기 스튜 라이스',es:'Arroz con Estofado Italiano de Ternera y Tomate'}, price:[{label:null,value:280}], emoji:'🍝', tags:['B'], note:{zh:'道地義式料理為基底，搭配特製蕃茄醬汁，加入大量新鮮蔬菜以及嫩牛肉片。',en:'Classic Italian-style tomato sauce with fresh vegetables and tender sliced beef over rice.',ja:'本格イタリア料理ベースのトマトソースに新鮮野菜と柔らかい牛肉を合わせたご飯もの。',ko:'정통 이탈리아식 토마토 소스에 신선한 채소와 부드러운 소고기를 얹은 라이스.',es:'Salsa de tomate al estilo italiano clásico con verduras frescas y tiernas lonchas de ternera sobre arroz.'} },
+  { id:'set-004', category:'set', names:{zh:'牛肉千層麵',en:'Beef Lasagne',ja:'ビーフラザニア',ko:'소고기 라자냐',es:'Lasaña de Ternera'}, price:[{label:null,value:280}], emoji:'🍝', tags:['B'], note:{zh:'道地義式千層麵，搭配特製番茄肉醬，加入大量新鮮蔬菜以及嫩牛肉片。',en:'Classic Italian lasagne layered with house bolognese, fresh vegetables and tender beef.',ja:'自家製ボロネーゼソースと新鮮野菜、柔らかな牛肉を重ねた本格ラザニア。',ko:'홈메이드 볼로네제 소스, 신선한 채소, 부드러운 소고기를 층층이 쌓은 라자냐.',es:'Lasaña italiana clásica con boloñesa casera, verduras frescas y ternera tierna en capas.'} },
+  { id:'set-005', category:'set', names:{zh:'煎煎小羊排拼飯',en:'Pan-Seared Lamb Chop Plate',ja:'パンシアードラムチョッププレート',ko:'팬시어드 램촙 플레이트',es:'Chuletas de Cordero a la Sartén'}, price:[{label:null,value:300}], emoji:'🍖', tags:['L','R'], note:{zh:'精選紐西蘭羔羊排，以特製香料醃製，煎出外酥內嫩的完美口感。',en:'New Zealand lamb chops marinated in house spices, pan-seared to a crisp exterior with a juicy centre.',ja:'ニュージーランド産ラムチョップを自家製スパイスで漬け込み、外はカリッと中はジューシーに。',ko:'뉴질랜드산 양갈비를 특제 향신료로 재워 겉은 바삭, 속은 촉촉하게 구운 플레이트.',es:'Chuletas de cordero de Nueva Zelanda marinadas en especias caseras, doradas por fuera y jugosas por dentro.'} },
+  // combos
+  { id:'combo-001', category:'combo', names:{zh:'鹹甜好滋味',en:'Sweet & Savory Duo',ja:'甘じょっぱいデュオ',ko:'달콤 짭짤 듀오',es:'Dúo Dulce y Salado'}, price:[{label:null,value:565}], emoji:'🍽️', tags:[], note:{zh:'鹹派精選（NT.180）+ 甜塔一個（NT.150），鹹甜雙重享受！',en:'One savory quiche (NT.180) + one sweet tart (NT.150) — the best of both worlds.',ja:'セレクトキッシュ（NT.180）＋スイーツタルト（NT.150）のお得なセット。',ko:'선택 키쉬(NT.180) + 달콤한 타르트(NT.150) 세트.',es:'Una quiche salada (NT.180) + una tarta dulce (NT.150) — lo mejor de los dos mundos.'} },
+  { id:'combo-002', category:'combo', names:{zh:'雙享好滿足',en:'Double Delight Set',ja:'ダブルディライトセット',ko:'더블 딜라이트 세트',es:'Set Doble Placer'}, price:[{label:null,value:536}], emoji:'🍽️', tags:[], note:{zh:'選購主餐1份（NT.180以上）＋鹹派甜塔任選一，雙重體驗！',en:'Choose 1 main (NT.180+) + any quiche or tart — the ultimate combo experience.',ja:'メイン1品（NT.180以上）＋キッシュまたはタルト1品のダブル体験セット。',ko:'메인 1인분(NT.180 이상) + 키쉬 또는 타르트 1개 세트.',es:'Elige 1 plato principal (NT.180+) + cualquier quiche o tarta — la combinación perfecta.'} },
+  // bread
+  { id:'bread-001', category:'bread', names:{zh:'香蒜軟法',en:'Garlic Butter Baguette',ja:'ガーリックバターバゲット',ko:'갈릭 버터 바게트',es:'Baguette de Ajo y Mantequilla'}, price:[{label:null,value:220}], emoji:'🥖', tags:['V'], note:{zh:'以自製蒜香奶油抹醬烤製，外表酥脆內裡鬆軟，入口充滿濃郁蒜香與奶油香氣。',en:'Baked with house garlic butter spread — crispy crust, fluffy inside, rich in garlic and butter.',ja:'自家製ガーリックバターで焼き上げた、外はカリッと中はふわっとしたバゲット。',ko:'홈메이드 갈릭 버터로 구운 바게트. 겉은 바삭, 속은 폭신.',es:'Horneada con mantequilla de ajo casera — corteza crujiente, interior esponjoso, rico en ajo y mantequilla.'} },
+  { id:'bread-002', category:'bread', names:{zh:'蜜芝麻乳酪軟法',en:'Honey Sesame Cheese Baguette',ja:'ハニーごまチーズバゲット',ko:'꿀 참깨 치즈 바게트',es:'Baguette de Miel, Sésamo y Queso'}, price:[{label:null,value:300}], emoji:'🥖', tags:[], note:{zh:'蜂蜜芝麻與濃郁乳酪融合，外酥內軟，甜香的蜂蜜加上芝麻香氣。',en:'Sweet honey and sesame melded with rich cheese — crispy outside, soft inside.',ja:'はちみつ・ごまと濃厚チーズが融合した、外はカリッと中はモチモチのバゲット。',ko:'꿀과 참깨, 진한 치즈가 어우러진 바게트.',es:'Miel dulce y sésamo fusionados con queso rico — crujiente por fuera, suave por dentro.'} },
+  { id:'bread-003', category:'bread', names:{zh:'煙燻雞肉起司軟法',en:'Smoked Chicken & Cheese Baguette',ja:'スモークチキン＆チーズバゲット',ko:'훈제 치킨 치즈 바게트',es:'Baguette de Pollo Ahumado y Queso'}, price:[{label:null,value:320}], emoji:'🥖', tags:[], note:{zh:'以煙燻雞肉加上濃郁起司烤製，外酥內軟，煙燻香氣與起司香氣完美融合。',en:'Smoked chicken and melted cheese baked into a crusty baguette — smoky, rich and satisfying.',ja:'スモークチキンと濃厚チーズを焼き込んだバゲット。スモーキーな香りが食欲をそそる。',ko:'훈제 치킨과 진한 치즈를 넣어 구운 바게트.',es:'Pollo ahumado y queso fundido horneados en una baguette crujiente — ahumada, rica y satisfactoria.'} },
+];
+
+// ── STATE ────────────────────────────────────────────────────────────────
+let currentLang = 'zh';
+let openItem = null;
+let scrollPos = 0;
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function t(obj) { return obj[currentLang] || obj['zh'] || ''; }
+function fmtPrice(p) {
+  if (p === 'market') return { zh:'時價', en:'Market Price', ja:'時価', ko:'시가', es:'Precio de mercado' }[currentLang];
+  return 'NT$' + p;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────
+function renderAll() {
+  document.documentElement.lang = currentLang === 'zh' ? 'zh-TW' : currentLang === 'ko' ? 'ko' : currentLang === 'es' ? 'es' : currentLang;
+  document.body.setAttribute('data-lang', currentLang);
+
+  // Hero text — show complementary name as subtitle
+  // In zh mode: show Chinese name; in other modes: show Chinese name for context
+  document.getElementById('hero-name-zh').textContent = storeInfo.names.zh;
+  document.getElementById('info-address').textContent = t(storeInfo.address);
+  document.getElementById('info-hours').textContent = t(storeInfo.hours);
+  document.getElementById('info-reservation-label').textContent = t(storeInfo.reservation);
+  document.getElementById('footer-addr').textContent = t(storeInfo.address);
+
+  // Lang buttons
+  document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.langBtn === currentLang);
+  });
+
+  renderTabs();
+  renderSections();
+}
+
+function renderTabs() {
+  const inner = document.getElementById('cat-tabs-inner');
+  inner.innerHTML = '';
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-tab';
+    btn.dataset.cat = cat.id;
+    btn.textContent = t(cat.label);
+    btn.addEventListener('click', () => scrollToSection(cat.id));
+    inner.appendChild(btn);
+  });
+}
+
+function renderSections() {
+  const main = document.getElementById('menu-main');
+  main.innerHTML = '';
+  categories.forEach(cat => {
+    const items = menuItems.filter(i => i.category === cat.id);
+    if (!items.length) return;
+
+    const sec = document.createElement('section');
+    sec.className = 'section';
+    sec.id = 'sec-' + cat.id;
+    sec.setAttribute('data-cat', cat.id);
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'section-title';
+    titleEl.textContent = t(cat.label);
+    sec.appendChild(titleEl);
+
+    const cardsEl = document.createElement('div');
+    cardsEl.className = 'cards';
+
+    items.forEach(item => {
+      cardsEl.appendChild(renderCard(item));
+    });
+
+    sec.appendChild(cardsEl);
+    main.appendChild(sec);
+  });
+}
+
+function renderCard(item) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+
+  // Emoji
+  const emojiEl = document.createElement('div');
+  emojiEl.className = 'card-emoji';
+  emojiEl.textContent = item.emoji;
+  card.appendChild(emojiEl);
+
+  // Body
+  const body = document.createElement('div');
+  body.className = 'card-body';
+
+  const nameEl = document.createElement('div');
+  nameEl.className = 'card-name';
+  nameEl.textContent = t(item.names);
+  body.appendChild(nameEl);
+
+  const noteText = t(item.note);
+  if (noteText) {
+    const noteEl = document.createElement('div');
+    noteEl.className = 'card-note';
+    noteEl.textContent = noteText;
+    body.appendChild(noteEl);
+  }
+
+  const footer = document.createElement('div');
+  footer.className = 'card-footer';
+
+  const tagsEl = document.createElement('div');
+  tagsEl.className = 'card-tags';
+  item.tags.forEach(code => {
+    if (!tagDefs[code]) return;
+    const def = tagDefs[code];
+    const t2 = document.createElement('span');
+    t2.className = 'tag tag-' + code;
+    t2.textContent = def.icon + ' ' + def[currentLang];
+    tagsEl.appendChild(t2);
+  });
+  footer.appendChild(tagsEl);
+
+  const priceEl = document.createElement('div');
+  priceEl.className = 'card-price';
+  if (item.price.length === 1 && !item.price[0].label) {
+    priceEl.textContent = fmtPrice(item.price[0].value);
+  } else {
+    priceEl.textContent = 'NT$' + Math.min(...item.price.map(p => p.value)) + '+';
+  }
+  footer.appendChild(priceEl);
+
+  const chev = document.createElement('span');
+  chev.className = 'card-chevron';
+  chev.innerHTML = '<svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  footer.appendChild(chev);
+
+  body.appendChild(footer);
+  card.appendChild(body);
+
+  card.addEventListener('click', () => openModal(item));
+  card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openModal(item); });
+  return card;
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────
+function openModal(item) {
+  scrollPos = window.pageYOffset;
+  openItem = item;
+
+  document.getElementById('modal-emoji').textContent = item.emoji;
+  document.getElementById('modal-name').textContent = t(item.names);
+
+  // Tags
+  const tagsEl = document.getElementById('modal-tags');
+  tagsEl.innerHTML = '';
+  item.tags.forEach(code => {
+    if (!tagDefs[code]) return;
+    const def = tagDefs[code];
+    const el = document.createElement('span');
+    el.className = 'modal-tag tag-' + code;
+    el.textContent = def.icon + '  ' + def[currentLang];
+    tagsEl.appendChild(el);
+  });
+
+  // Price
+  const priceBlock = document.getElementById('modal-price-block');
+  priceBlock.innerHTML = '';
+  item.price.forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'modal-price-row';
+    const label = document.createElement('div');
+    label.className = 'modal-price-label';
+    label.textContent = p.label ? t(p.label) : ({ zh:'價格', en:'Price', ja:'価格', ko:'가격', es:'Precio' }[currentLang]);
+    const val = document.createElement('div');
+    val.className = 'modal-price-val';
+    val.textContent = fmtPrice(p.value);
+    row.appendChild(label);
+    row.appendChild(val);
+    priceBlock.appendChild(row);
+  });
+
+  // Note/desc
+  const descEl = document.getElementById('modal-desc');
+  descEl.innerHTML = '';
+  const noteText = t(item.note);
+  if (noteText) {
+    const lbl = document.createElement('div');
+    lbl.className = 'modal-note-label';
+    lbl.textContent = { zh:'關於此品項', en:'About', ja:'説明', ko:'설명', es:'Descripción' }[currentLang];
+    const txt = document.createElement('div');
+    txt.textContent = noteText;
+    descEl.appendChild(lbl);
+    descEl.appendChild(txt);
+  }
+
+  document.getElementById('modal-overlay').classList.add('show');
+  document.getElementById('modal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+  document.getElementById('modal').classList.remove('show');
+  document.body.style.overflow = '';
+  openItem = null;
+  // restore scroll
+  window.scrollTo(0, scrollPos);
+}
+
+// ── TABS ACTIVE STATE (scroll spy) ────────────────────────────────────────
+function updateActiveCat() {
+  const sections = document.querySelectorAll('.section[data-cat]');
+  const tabsTop = document.getElementById('cat-tabs').getBoundingClientRect().bottom;
+  let active = null;
+  sections.forEach(sec => {
+    const rect = sec.getBoundingClientRect();
+    if (rect.top <= tabsTop + 10) active = sec.dataset.cat;
+  });
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.cat === active);
+  });
+}
+
+function scrollToSection(catId) {
+  const sec = document.getElementById('sec-' + catId);
+  if (!sec) return;
+  const tabsHeight = document.getElementById('cat-tabs').offsetHeight + document.querySelector('.lang-bar').offsetHeight;
+  const top = sec.getBoundingClientRect().top + window.pageYOffset - tabsHeight - 6;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
+// ── EVENTS ────────────────────────────────────────────────────────────────
+document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentLang = btn.dataset.langBtn;
+    renderAll();
+    if (openItem) {
+      openModal(openItem);
+    }
+  });
+});
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click', closeModal);
+
+// Swipe down to close modal
+let touchStartY = 0;
+document.getElementById('modal').addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+document.getElementById('modal').addEventListener('touchmove', e => {
+  const dy = e.touches[0].clientY - touchStartY;
+  if (dy > 60 && document.getElementById('modal').scrollTop === 0) {
+    closeModal();
+  }
+}, { passive: true });
+
+window.addEventListener('scroll', updateActiveCat, { passive: true });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+renderAll();
+setTimeout(updateActiveCat, 100);
+</script>
+</body>
+</html>
