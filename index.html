@@ -6,7 +6,7 @@
 <title>ZAC CAFE — 線上菜單</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
 
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -429,7 +429,6 @@
   }
 
   /* ── LANG FONTS ── */
-  [data-lang="ja"] { font-family: 'Noto Sans JP', sans-serif; }
 </style>
 </head>
 <body>
@@ -438,7 +437,6 @@
 <nav class="lang-bar" role="navigation" aria-label="Language">
   <button class="lang-btn active" data-lang-btn="zh">繁中</button>
   <button class="lang-btn" data-lang-btn="en">EN</button>
-  <button class="lang-btn" data-lang-btn="ja">日本語</button>
   <button class="lang-btn" data-lang-btn="de">DE</button>
   <button class="lang-btn" data-lang-btn="es">ES</button>
 </nav>
@@ -501,67 +499,66 @@
 
 const storeInfo = {
   names: {
-    zh: 'ZAC 咖啡', en: 'ZAC CAFE', ja: 'ZAC カフェ', de: 'ZAC CAFÉ', es: 'CAFÉ ZAC',
+    zh: 'ZAC 咖啡', en: 'ZAC CAFE', de: 'ZAC CAFÉ', es: 'CAFÉ ZAC',
   },
   since: '1997',
   address: {
     zh: '977 花蓮縣豐濱鄉靜浦村8-1號',
     en: 'No. 8-1, Jingpu Village, Fengbin Township, Hualien County 977',
-    ja: '977 花蓮県豊浜郷静浦村8-1号',
     de: 'Nr. 8-1, Dorf Jingpu, Gemeinde Fengbin, Landkreis Hualien 977',
     es: 'N.º 8-1, Aldea Jingpu, Municipio Fengbin, Condado de Hualien 977',
   },
   phone: '03-425-1598',
-  hours: { zh: '13:00 – 21:00', en: '13:00 – 21:00', ja: '13:00 – 21:00', de: '13:00 – 21:00', es: '13:00 – 21:00' },
-  reservation: { zh: '訂位專線', en: 'Reservation', ja: 'ご予約', de: 'Reservierung', es: 'Reservas' },
+  hours: { zh: '13:00 – 21:00', en: '13:00 – 21:00', de: '13:00 – 21:00', es: '13:00 – 21:00' },
+  reservation: { zh: '訂位專線', en: 'Reservation', de: 'Reservierung', es: 'Reservas' },
 };
 
 const categories = [
-  { id: 'snack', label: { zh: '零嘴小點', en: 'Snacks', ja: 'おつまみ', de: 'Snacks', es: 'Aperitivos' } },
-  { id: 'pie',   label: { zh: '鹹派 & 甜塔', en: 'Pies & Tarts', ja: 'キッシュ＆タルト', de: 'Kuchen & Tartes', es: 'Quiches & Tartas' } },
-  { id: 'set',   label: { zh: '精選套餐', en: 'Select Sets', ja: 'セレクトセット', de: 'Ausgewählte Menüs', es: 'Menús Selectos' } },
-  { id: 'combo', label: { zh: '組合套餐', en: 'Combo Sets', ja: 'コンボセット', de: 'Kombis', es: 'Combos' } },
-  { id: 'bread', label: { zh: '經典軟法', en: 'Classic Baguette', ja: 'バゲット', de: 'Klassisches Baguette', es: 'Baguettes Clásicas' } },
+  { id: 'snack', label: { zh: '零嘴小點', en: 'Snacks', de: 'Snacks', es: 'Aperitivos' } },
+  { id: 'pie',   label: { zh: '鹹派 & 甜塔', en: 'Pies & Tarts', de: 'Kuchen & Tartes', es: 'Quiches & Tartas' } },
+  { id: 'set',   label: { zh: '精選套餐', en: 'Select Sets', de: 'Ausgewählte Menüs', es: 'Menús Selectos' } },
+  { id: 'combo', label: { zh: '組合套餐', en: 'Combo Sets', de: 'Kombis', es: 'Combos' } },
+  { id: 'bread', label: { zh: '經典軟法', en: 'Classic Baguette', de: 'Klassisches Baguette', es: 'Baguettes Clásicas' } },
 ];
 
 const tagDefs = {
-  R:  { icon: '⭐', zh: '本店推薦', en: 'Recommended',            ja: 'おすすめ',       de: 'Empfehlung',                    es: 'Recomendado' },
-  '1':{ icon: '🌶️', zh: '小辣',   en: 'Mild Spicy',              ja: '少し辛い',       de: 'Leicht scharf',                 es: 'Poco picante' },
-  '2':{ icon: '🌶️🌶️', zh: '中辣',en: 'Medium Spicy',            ja: '中辛',           de: 'Mittelscharf',                  es: 'Medio picante' },
-  '3':{ icon: '🔥', zh: '大辣',   en: 'Very Spicy',              ja: '激辛',           de: 'Sehr scharf',                   es: 'Muy picante' },
-  P:  { icon: '🐷', zh: '含豬肉', en: 'Contains Pork',           ja: '豚肉入り',       de: 'Enthält Schweinefleisch',       es: 'Contiene cerdo' },
-  B:  { icon: '🐂', zh: '含牛肉', en: 'Contains Beef',           ja: '牛肉入り',       de: 'Enthält Rindfleisch',           es: 'Contiene ternera' },
-  L:  { icon: '🐑', zh: '含羊肉', en: 'Contains Lamb',           ja: 'ラム入り',       de: 'Enthält Lammfleisch',           es: 'Contiene cordero' },
-  V:  { icon: '🥬', zh: '素食',   en: 'Vegetarian',              ja: 'ベジタリアン',   de: 'Vegetarisch',                   es: 'Vegetariano' },
-  V5: { icon: '🧄', zh: '五辛素', en: 'Plant-based with Allium', ja: '五葷あり精進',   de: 'Pflanzlich mit Lauchgewächsen', es: 'Vegetal con aliáceas' },
-  H:  { icon: '☪️', zh: '清真',   en: 'Halal',                   ja: 'ハラール',       de: 'Halal',                         es: 'Halal' },
+  R:  { icon: '⭐', zh: '本店推薦', en: 'Recommended',       de: 'Empfehlung',                    es: 'Recomendado' },
+  '1':{ icon: '🌶️', zh: '小辣',   en: 'Mild Spicy',       de: 'Leicht scharf',                 es: 'Poco picante' },
+  '2':{ icon: '🌶️🌶️', zh: '中辣',en: 'Medium Spicy',           de: 'Mittelscharf',                  es: 'Medio picante' },
+  '3':{ icon: '🔥', zh: '大辣',   en: 'Very Spicy',           de: 'Sehr scharf',                   es: 'Muy picante' },
+  P:  { icon: '🐷', zh: '含豬肉', en: 'Contains Pork',       de: 'Enthält Schweinefleisch',       es: 'Contiene cerdo' },
+  B:  { icon: '🐂', zh: '含牛肉', en: 'Contains Beef',       de: 'Enthält Rindfleisch',           es: 'Contiene ternera' },
+  L:  { icon: '🐑', zh: '含羊肉', en: 'Contains Lamb',       de: 'Enthält Lammfleisch',           es: 'Contiene cordero' },
+  V:  { icon: '🥬', zh: '素食',   en: 'Vegetarian',   de: 'Vegetarisch',                   es: 'Vegetariano' },
+  V5: { icon: '🧄', zh: '五辛素', en: 'Plant-based with Allium',   de: 'Pflanzlich mit Lauchgewächsen', es: 'Vegetal con aliáceas' },
+  H:  { icon: '☪️', zh: '清真',   en: 'Halal',       de: 'Halal',                         es: 'Halal' },
 };
 
 const menuItems = [
   // snacks
-  { id:'snack-001', category:'snack', names:{zh:'奶油爆米花',en:'Butter Popcorn',ja:'バターポップコーン',de:'Butterpopkorn',es:'Palomitas con Mantequilla'}, price:[{label:null,value:100}], emoji:'🍿', tags:[], note:{zh:'鹽子彈爆米花，讓你好好下酒！一份常常難以控制！',en:'Salt-bomb popcorn — the perfect snack with drinks. One portion is never enough!',ja:'塩味たっぷりのポップコーン。お酒のおつまみに最高！',de:'Salziges Knallbomben-Popcorn — der perfekte Snack zu Getränken. Eine Portion reicht nie!',es:'Palomitas con mucha sal, perfectas para acompañar bebidas. ¡Una ración nunca es suficiente!'} },
-  { id:'snack-002', category:'snack', names:{zh:'火腿起司歐姆蛋',en:'Ham & Cheese Omelette',ja:'ハム＆チーズオムレツ',de:'Schinken-Käse-Omelett',es:'Tortilla de Jamón y Queso'}, price:[{label:null,value:300}], emoji:'🍳', tags:[], note:{zh:'鮮軟蛋捲搭配越南豬肉火腿與濃郁起司，透有隱約的香氣天然甜感加上奶香風。',en:'Silky egg wrap with Vietnamese-style ham and rich cheese, subtly fragrant with a natural sweetness.',ja:'柔らかな卵にベトナム風ハムと濃厚チーズを合わせたオムレツ。',de:'Seidiges Eiröllchen mit vietnamesischem Schinken und reichhaltigem Käse, dezent würzig mit natürlicher Süße.',es:'Tortilla sedosa con jamón al estilo vietnamita y queso rico, con un sutil aroma y dulzura natural.'} },
-  { id:'snack-003', category:'snack', names:{zh:'香烤蕃茄嫩雞翅',en:'Tomato Herb Baked Chicken Wings',ja:'トマトハーブ焼きチキンウィング',de:'Tomaten-Kräuter-Hähnchenflügel',es:'Alitas de Pollo al Tomate y Hierbas'}, price:[{label:null,value:340}], emoji:'🍗', tags:[], note:{zh:'外表酥脆、香體脂肪低，並入特別的秘醬調味，散發誘人的天然香氣。',en:'Crispy outside, tender inside — marinated in our secret sauce with irresistible natural aromas.',ja:'外はカリッと、中はジューシー。秘伝ソースの風味豊かな焼きチキン。',de:'Außen knusprig, innen zart — mariniert in unserer Geheimsauce mit unwiderstehlichen natürlichen Aromen.',es:'Crujientes por fuera, tiernas por dentro — marinadas en nuestra salsa secreta con aromas irresistibles.'} },
-  { id:'snack-004', category:'snack', names:{zh:'乳酪起司四重奏',en:'Four-Cheese Quartet',ja:'チーズ四重奏',de:'Vier-Käse-Quartett',es:'Cuarteto de Quesos'}, price:[{label:null,value:390}], emoji:'🧀', tags:[], note:{zh:'精選四款濃郁系乳酪，各切三角一片，搭配海鹽、奶香餅乾與巧克力品嘗。',en:'Four rich cheeses, each sliced into wedges, served with sea salt, buttery crackers and chocolate.',ja:'4種の濃厚チーズをウェッジにカット。海塩・バタークラッカー・チョコと共に。',de:'Vier kräftige Käse in Spalten geschnitten, serviert mit Meersalz, Butterkeksen und Schokolade.',es:'Cuatro quesos intensos en gajos, servidos con sal marina, galletas mantequilladas y chocolate.'} },
+  { id:'snack-001', category:'snack', names:{zh:'奶油爆米花',en:'Butter Popcorn',de:'Butterpopkorn',es:'Palomitas con Mantequilla'}, price:[{label:null,value:100}], emoji:'🍿', tags:[], note:{zh:'鹽子彈爆米花，讓你好好下酒！一份常常難以控制！',en:'Salt-bomb popcorn — the perfect snack with drinks. One portion is never enough!',de:'Salziges Knallbomben-Popcorn — der perfekte Snack zu Getränken. Eine Portion reicht nie!',es:'Palomitas con mucha sal, perfectas para acompañar bebidas. ¡Una ración nunca es suficiente!'} },
+  { id:'snack-002', category:'snack', names:{zh:'火腿起司歐姆蛋',en:'Ham & Cheese Omelette',de:'Schinken-Käse-Omelett',es:'Tortilla de Jamón y Queso'}, price:[{label:null,value:300}], emoji:'🍳', tags:[], note:{zh:'鮮軟蛋捲搭配越南豬肉火腿與濃郁起司，透有隱約的香氣天然甜感加上奶香風。',en:'Silky egg wrap with Vietnamese-style ham and rich cheese, subtly fragrant with a natural sweetness.',de:'Seidiges Eiröllchen mit vietnamesischem Schinken und reichhaltigem Käse, dezent würzig mit natürlicher Süße.',es:'Tortilla sedosa con jamón al estilo vietnamita y queso rico, con un sutil aroma y dulzura natural.'} },
+  { id:'snack-003', category:'snack', names:{zh:'香烤蕃茄嫩雞翅',en:'Tomato Herb Baked Chicken Wings',de:'Tomaten-Kräuter-Hähnchenflügel',es:'Alitas de Pollo al Tomate y Hierbas'}, price:[{label:null,value:340}], emoji:'🍗', tags:[], note:{zh:'外表酥脆、香體脂肪低，並入特別的秘醬調味，散發誘人的天然香氣。',en:'Crispy outside, tender inside — marinated in our secret sauce with irresistible natural aromas.',de:'Außen knusprig, innen zart — mariniert in unserer Geheimsauce mit unwiderstehlichen natürlichen Aromen.',es:'Crujientes por fuera, tiernas por dentro — marinadas en nuestra salsa secreta con aromas irresistibles.'} },
+  { id:'snack-004', category:'snack', names:{zh:'乳酪起司四重奏',en:'Four-Cheese Quartet',de:'Vier-Käse-Quartett',es:'Cuarteto de Quesos'}, price:[{label:null,value:390}], emoji:'🧀', tags:[], note:{zh:'精選四款濃郁系乳酪，各切三角一片，搭配海鹽、奶香餅乾與巧克力品嘗。',en:'Four rich cheeses, each sliced into wedges, served with sea salt, buttery crackers and chocolate.',de:'Vier kräftige Käse in Spalten geschnitten, serviert mit Meersalz, Butterkeksen und Schokolade.',es:'Cuatro quesos intensos en gajos, servidos con sal marina, galletas mantequilladas y chocolate.'} },
   // pies
-  { id:'pie-001', category:'pie', names:{zh:'培根乳酪派',en:'Bacon & Cheese Quiche',ja:'ベーコン＆チーズキッシュ',de:'Speck-Käse-Quiche',es:'Quiche de Bacon y Queso'}, price:[{label:null,value:180}], emoji:'🥧', tags:['R'], note:{zh:'桃山香薰肉片自製乳酪派，以新鮮乳酪融合，乳香入風。',en:'House-made quiche with fragrant smoked bacon and fresh melted cheese — rich and aromatic.',ja:'自家製スモークベーコンと新鮮チーズを使ったキッシュ。',de:'Hausgemachte Quiche mit aromatischem Räucherspeck und frisch geschmolzenem Käse — reichhaltig und aromatisch.',es:'Quiche casera con bacon ahumado aromático y queso fresco fundido — rico y delicioso.'} },
-  { id:'pie-002', category:'pie', names:{zh:'青花鮭魚鹹派',en:'Salmon & Gorgonzola Quiche',ja:'サーモン＆ゴルゴンゾーラキッシュ',de:'Lachs-Gorgonzola-Quiche',es:'Quiche de Salmón y Gorgonzola'}, price:[{label:null,value:180}], emoji:'🥧', tags:[], note:{zh:'優質新鮮台灣花鮭，搭配藍起司乳酪自製配方，加入大量濃郁的奶香醬。',en:'Fresh Taiwanese salmon with house blue-cheese blend, finished with rich cream sauce.',ja:'台湾産新鮮サーモンにブルーチーズを合わせたキッシュ。',de:'Frischer taiwanesischer Lachs mit hausgemachter Blauschimmelkäsemischung, großzügig geschichtet und mit reichhaltiger Sahnesauce verfeinert.',es:'Salmón fresco taiwanés con mezcla de queso azul de la casa, acabado con cremosa salsa.'} },
-  { id:'pie-003', category:'pie', names:{zh:'焦糖海鹽核桃塔',en:'Salted Caramel Walnut Tart',ja:'塩キャラメルくるみタルト',de:'Gesalzene Karamell-Walnuss-Tarte',es:'Tarta de Nueces y Caramelo Salado'}, price:[{label:null,value:180}], emoji:'🍮', tags:[], note:{zh:'特製焦糖液加入大量核桃碎，以海鹽平衡甜度，搭配入口即化的奶油塔皮。',en:'House caramel with crushed walnuts, balanced with sea salt, on a melt-in-your-mouth butter crust.',ja:'自家製キャラメルにくるみをたっぷり加え、海塩でバランスを取ったタルト。',de:'Hausgemachtes Karamell mit gehackten Walnüssen, mit Meersalz ausbalanciert, auf einem schmelzenden Butterteig.',es:'Caramelo casero con nueces picadas, equilibrado con sal marina, sobre una masa de mantequilla que se deshace.'} },
-  { id:'pie-004', category:'pie', names:{zh:'奶油蔬菜鹹派',en:'Creamy Veggie Quiche',ja:'クリームベジキッシュ',de:'Cremige Gemüse-Quiche',es:'Quiche Vegetal Cremosa'}, price:[{label:null,value:150}], emoji:'🥧', tags:['V'], note:{zh:'大量新鮮蔬菜加入自製奶油白醬，搭配凱薩醬或和風醬，濃郁奶香包裹鮮甜蔬菜。',en:'Loaded with fresh vegetables in house cream sauce — choose Caesar or Japanese wafu dressing.',ja:'新鮮野菜をたっぷり使い自家製クリームソースで仕上げたキッシュ。',de:'Mit frischem Gemüse und hausgemachter Sahnesauce — Caesar- oder japanisches Wafu-Dressing wählbar.',es:'Cargada de verduras frescas en salsa cremosa casera — elige aderezo César o japonés wafu.'} },
-  { id:'pie-005', category:'pie', names:{zh:'香草檸檬塔',en:'Lemon Herb Tart',ja:'レモンハーブタルト',de:'Zitronen-Kräuter-Tarte',es:'Tarta de Limón y Hierbas'}, price:[{label:null,value:150}], emoji:'🍋', tags:[], note:{zh:'以新鮮檸檬汁加入法式特製奶油醬，佐以清爽的香草與酸甜清新感。',en:'Fresh lemon curd on a French-style butter base, lifted with herbs and topped with fresh cream.',ja:'新鮮レモンカードをフランス風バタークリームに合わせたタルト。',de:'Frische Zitronencreme auf französischer Butterbasis, mit Kräutern aufgefrischt und mit frischer Sahne garniert.',es:'Crema de limón fresco sobre base francesa de mantequilla, realzada con hierbas y nata fresca.'} },
+  { id:'pie-001', category:'pie', names:{zh:'培根乳酪派',en:'Bacon & Cheese Quiche',de:'Speck-Käse-Quiche',es:'Quiche de Bacon y Queso'}, price:[{label:null,value:180}], emoji:'🥧', tags:['R'], note:{zh:'桃山香薰肉片自製乳酪派，以新鮮乳酪融合，乳香入風。',en:'House-made quiche with fragrant smoked bacon and fresh melted cheese — rich and aromatic.',de:'Hausgemachte Quiche mit aromatischem Räucherspeck und frisch geschmolzenem Käse — reichhaltig und aromatisch.',es:'Quiche casera con bacon ahumado aromático y queso fresco fundido — rico y delicioso.'} },
+  { id:'pie-002', category:'pie', names:{zh:'青花鮭魚鹹派',en:'Salmon & Gorgonzola Quiche',de:'Lachs-Gorgonzola-Quiche',es:'Quiche de Salmón y Gorgonzola'}, price:[{label:null,value:180}], emoji:'🥧', tags:[], note:{zh:'優質新鮮台灣花鮭，搭配藍起司乳酪自製配方，加入大量濃郁的奶香醬。',en:'Fresh Taiwanese salmon with house blue-cheese blend, finished with rich cream sauce.',de:'Frischer taiwanesischer Lachs mit hausgemachter Blauschimmelkäsemischung, großzügig geschichtet und mit reichhaltiger Sahnesauce verfeinert.',es:'Salmón fresco taiwanés con mezcla de queso azul de la casa, acabado con cremosa salsa.'} },
+  { id:'pie-003', category:'pie', names:{zh:'焦糖海鹽核桃塔',en:'Salted Caramel Walnut Tart',de:'Gesalzene Karamell-Walnuss-Tarte',es:'Tarta de Nueces y Caramelo Salado'}, price:[{label:null,value:180}], emoji:'🍮', tags:[], note:{zh:'特製焦糖液加入大量核桃碎，以海鹽平衡甜度，搭配入口即化的奶油塔皮。',en:'House caramel with crushed walnuts, balanced with sea salt, on a melt-in-your-mouth butter crust.',de:'Hausgemachtes Karamell mit gehackten Walnüssen, mit Meersalz ausbalanciert, auf einem schmelzenden Butterteig.',es:'Caramelo casero con nueces picadas, equilibrado con sal marina, sobre una masa de mantequilla que se deshace.'} },
+  { id:'pie-004', category:'pie', names:{zh:'奶油蔬菜鹹派',en:'Creamy Veggie Quiche',de:'Cremige Gemüse-Quiche',es:'Quiche Vegetal Cremosa'}, price:[{label:null,value:150}], emoji:'🥧', tags:['V'], note:{zh:'大量新鮮蔬菜加入自製奶油白醬，搭配凱薩醬或和風醬，濃郁奶香包裹鮮甜蔬菜。',en:'Loaded with fresh vegetables in house cream sauce — choose Caesar or Japanese wafu dressing.',de:'Mit frischem Gemüse und hausgemachter Sahnesauce — Caesar- oder japanisches Wafu-Dressing wählbar.',es:'Cargada de verduras frescas en salsa cremosa casera — elige aderezo César o japonés wafu.'} },
+  { id:'pie-005', category:'pie', names:{zh:'香草檸檬塔',en:'Lemon Herb Tart',de:'Zitronen-Kräuter-Tarte',es:'Tarta de Limón y Hierbas'}, price:[{label:null,value:150}], emoji:'🍋', tags:[], note:{zh:'以新鮮檸檬汁加入法式特製奶油醬，佐以清爽的香草與酸甜清新感。',en:'Fresh lemon curd on a French-style butter base, lifted with herbs and topped with fresh cream.',de:'Frische Zitronencreme auf französischer Butterbasis, mit Kräutern aufgefrischt und mit frischer Sahne garniert.',es:'Crema de limón fresco sobre base francesa de mantequilla, realzada con hierbas y nata fresca.'} },
   // sets
-  { id:'set-001', category:'set', names:{zh:'蘿蔔牛腩燴飯',en:'Braised Beef Brisket & Radish Rice',ja:'大根と牛バラ肉の煮込みご飯',de:'Geschmorte Rinderbrust mit Rettich auf Reis',es:'Arroz con Pecho de Ternera Estofado y Rábano'}, price:[{label:null,value:260}], emoji:'🍛', tags:['B'], note:{zh:'以蘿蔔、老薑、多種香料大火燉煮的牛腩，口感軟嫩帶有豐富湯汁。',en:'Slow-braised beef brisket with daikon and ginger, tender and richly flavoured.',ja:'大根・生姜・スパイスでじっくり煮込んだ牛バラ。やわらかくコクのある一品。',de:'Langsam geschmorte Rinderbrust mit Daikon und Ingwer, zart und intensiv im Geschmack.',es:'Pecho de ternera estofado a fuego lento con rábano daikon y jengibre, tierno y muy sabroso.'} },
-  { id:'set-002', category:'set', names:{zh:'泰式綠咖哩雞肉飯',en:'Thai Green Curry Chicken Rice',ja:'タイ風グリーンカレーチキンライス',de:'Thai-Grüncurry mit Hühnchen auf Reis',es:'Arroz con Curry Verde Tailandés y Pollo'}, price:[{label:null,value:280}], emoji:'🍛', tags:['R','1'], note:{zh:'道地泰式料理為基底，搭配特製椰奶香氣，加入大量新鮮蔬菜與嫩雞腿肉。',en:'Authentic Thai base with fragrant coconut milk, fresh vegetables and tender chicken thigh.',ja:'本格タイ料理ベースにココナッツミルクの香りを加えた一品。',de:'Authentische Thai-Basis mit aromatischer Kokosmilch, frischem Gemüse und zartem Hähnchenschenkel.',es:'Base tailandesa auténtica con aromático coco, verduras frescas y tierno muslo de pollo.'} },
-  { id:'set-003', category:'set', names:{zh:'義式蕃茄牛肉燴飯',en:'Italian Tomato Beef Stew Rice',ja:'イタリアントマト牛肉煮込みご飯',de:'Italienisches Tomaten-Rindfleisch auf Reis',es:'Arroz con Estofado Italiano de Ternera y Tomate'}, price:[{label:null,value:280}], emoji:'🍝', tags:['B'], note:{zh:'道地義式料理為基底，搭配特製蕃茄醬汁，加入大量新鮮蔬菜以及嫩牛肉片。',en:'Classic Italian-style tomato sauce with fresh vegetables and tender sliced beef over rice.',ja:'本格イタリア料理ベースのトマトソースに新鮮野菜と柔らかい牛肉を合わせたご飯もの。',de:'Klassische italienische Tomatensauce mit frischem Gemüse und zarten Rindfleischstreifen auf Reis.',es:'Salsa de tomate al estilo italiano clásico con verduras frescas y tiernas lonchas de ternera sobre arroz.'} },
-  { id:'set-004', category:'set', names:{zh:'牛肉千層麵',en:'Beef Lasagne',ja:'ビーフラザニア',de:'Rinderlasagne',es:'Lasaña de Ternera'}, price:[{label:null,value:280}], emoji:'🍝', tags:['B'], note:{zh:'道地義式千層麵，搭配特製番茄肉醬，加入大量新鮮蔬菜以及嫩牛肉片。',en:'Classic Italian lasagne layered with house bolognese, fresh vegetables and tender beef.',ja:'自家製ボロネーゼソースと新鮮野菜、柔らかな牛肉を重ねた本格ラザニア。',de:'Klassische italienische Lasagne mit hausgemachter Bolognese, frischem Gemüse und zartem Rindfleisch.',es:'Lasaña italiana clásica con boloñesa casera, verduras frescas y ternera tierna en capas.'} },
-  { id:'set-005', category:'set', names:{zh:'煎煎小羊排拼飯',en:'Pan-Seared Lamb Chop Plate',ja:'パンシアードラムチョッププレート',de:'Gebratene Lammkoteletts',es:'Chuletas de Cordero a la Sartén'}, price:[{label:null,value:300}], emoji:'🍖', tags:['L','R'], note:{zh:'精選紐西蘭羔羊排，以特製香料醃製，煎出外酥內嫩的完美口感。',en:'New Zealand lamb chops marinated in house spices, pan-seared to a crisp exterior with a juicy centre.',ja:'ニュージーランド産ラムチョップを自家製スパイスで漬け込み、外はカリッと中はジューシーに。',de:'Neuseeländische Lammkoteletts in Hausgewürzen mariniert, außen knusprig und innen saftig gebraten.',es:'Chuletas de cordero de Nueva Zelanda marinadas en especias caseras, doradas por fuera y jugosas por dentro.'} },
+  { id:'set-001', category:'set', names:{zh:'蘿蔔牛腩燴飯',en:'Braised Beef Brisket & Radish Rice',de:'Geschmorte Rinderbrust mit Rettich auf Reis',es:'Arroz con Pecho de Ternera Estofado y Rábano'}, price:[{label:null,value:260}], emoji:'🍛', tags:['B'], note:{zh:'以蘿蔔、老薑、多種香料大火燉煮的牛腩，口感軟嫩帶有豐富湯汁。',en:'Slow-braised beef brisket with daikon and ginger, tender and richly flavoured.',de:'Langsam geschmorte Rinderbrust mit Daikon und Ingwer, zart und intensiv im Geschmack.',es:'Pecho de ternera estofado a fuego lento con rábano daikon y jengibre, tierno y muy sabroso.'} },
+  { id:'set-002', category:'set', names:{zh:'泰式綠咖哩雞肉飯',en:'Thai Green Curry Chicken Rice',de:'Thai-Grüncurry mit Hühnchen auf Reis',es:'Arroz con Curry Verde Tailandés y Pollo'}, price:[{label:null,value:280}], emoji:'🍛', tags:['R','1'], note:{zh:'道地泰式料理為基底，搭配特製椰奶香氣，加入大量新鮮蔬菜與嫩雞腿肉。',en:'Authentic Thai base with fragrant coconut milk, fresh vegetables and tender chicken thigh.',de:'Authentische Thai-Basis mit aromatischer Kokosmilch, frischem Gemüse und zartem Hähnchenschenkel.',es:'Base tailandesa auténtica con aromático coco, verduras frescas y tierno muslo de pollo.'} },
+  { id:'set-003', category:'set', names:{zh:'義式蕃茄牛肉燴飯',en:'Italian Tomato Beef Stew Rice',de:'Italienisches Tomaten-Rindfleisch auf Reis',es:'Arroz con Estofado Italiano de Ternera y Tomate'}, price:[{label:null,value:280}], emoji:'🍝', tags:['B'], note:{zh:'道地義式料理為基底，搭配特製蕃茄醬汁，加入大量新鮮蔬菜以及嫩牛肉片。',en:'Classic Italian-style tomato sauce with fresh vegetables and tender sliced beef over rice.',de:'Klassische italienische Tomatensauce mit frischem Gemüse und zarten Rindfleischstreifen auf Reis.',es:'Salsa de tomate al estilo italiano clásico con verduras frescas y tiernas lonchas de ternera sobre arroz.'} },
+  { id:'set-004', category:'set', names:{zh:'牛肉千層麵',en:'Beef Lasagne',de:'Rinderlasagne',es:'Lasaña de Ternera'}, price:[{label:null,value:280}], emoji:'🍝', tags:['B'], note:{zh:'道地義式千層麵，搭配特製番茄肉醬，加入大量新鮮蔬菜以及嫩牛肉片。',en:'Classic Italian lasagne layered with house bolognese, fresh vegetables and tender beef.',de:'Klassische italienische Lasagne mit hausgemachter Bolognese, frischem Gemüse und zartem Rindfleisch.',es:'Lasaña italiana clásica con boloñesa casera, verduras frescas y ternera tierna en capas.'} },
+  { id:'set-005', category:'set', names:{zh:'煎煎小羊排拼飯',en:'Pan-Seared Lamb Chop Plate',de:'Gebratene Lammkoteletts',es:'Chuletas de Cordero a la Sartén'}, price:[{label:null,value:300}], emoji:'🍖', tags:['L','R'], note:{zh:'精選紐西蘭羔羊排，以特製香料醃製，煎出外酥內嫩的完美口感。',en:'New Zealand lamb chops marinated in house spices, pan-seared to a crisp exterior with a juicy centre.',de:'Neuseeländische Lammkoteletts in Hausgewürzen mariniert, außen knusprig und innen saftig gebraten.',es:'Chuletas de cordero de Nueva Zelanda marinadas en especias caseras, doradas por fuera y jugosas por dentro.'} },
   // combos
-  { id:'combo-001', category:'combo', names:{zh:'鹹甜好滋味',en:'Sweet & Savory Duo',ja:'甘じょっぱいデュオ',de:'Süß-herzhaftes Duo',es:'Dúo Dulce y Salado'}, price:[{label:null,value:565}], emoji:'🍽️', tags:[], note:{zh:'鹹派精選（NT.180）+ 甜塔一個（NT.150），鹹甜雙重享受！',en:'One savory quiche (NT.180) + one sweet tart (NT.150) — the best of both worlds.',ja:'セレクトキッシュ（NT.180）＋スイーツタルト（NT.150）のお得なセット。',de:'Eine herzhafte Quiche (NT.180) + eine süße Tarte (NT.150) — das Beste aus beiden Welten.',es:'Una quiche salada (NT.180) + una tarta dulce (NT.150) — lo mejor de los dos mundos.'} },
-  { id:'combo-002', category:'combo', names:{zh:'雙享好滿足',en:'Double Delight Set',ja:'ダブルディライトセット',de:'Doppeltes Vergnügen',es:'Set Doble Placer'}, price:[{label:null,value:536}], emoji:'🍽️', tags:[], note:{zh:'選購主餐1份（NT.180以上）＋鹹派甜塔任選一，雙重體驗！',en:'Choose 1 main (NT.180+) + any quiche or tart — the ultimate combo experience.',ja:'メイン1品（NT.180以上）＋キッシュまたはタルト1品のダブル体験セット。',de:'1 Hauptgericht (NT.180+) + eine beliebige Quiche oder Tarte — das ultimative Kombi-Erlebnis.',es:'Elige 1 plato principal (NT.180+) + cualquier quiche o tarta — la combinación perfecta.'} },
+  { id:'combo-001', category:'combo', names:{zh:'鹹甜好滋味',en:'Sweet & Savory Duo',de:'Süß-herzhaftes Duo',es:'Dúo Dulce y Salado'}, price:[{label:null,value:565}], emoji:'🍽️', tags:[], note:{zh:'鹹派精選（NT.180）+ 甜塔一個（NT.150），鹹甜雙重享受！',en:'One savory quiche (NT.180) + one sweet tart (NT.150) — the best of both worlds.',de:'Eine herzhafte Quiche (NT.180) + eine süße Tarte (NT.150) — das Beste aus beiden Welten.',es:'Una quiche salada (NT.180) + una tarta dulce (NT.150) — lo mejor de los dos mundos.'} },
+  { id:'combo-002', category:'combo', names:{zh:'雙享好滿足',en:'Double Delight Set',de:'Doppeltes Vergnügen',es:'Set Doble Placer'}, price:[{label:null,value:536}], emoji:'🍽️', tags:[], note:{zh:'選購主餐1份（NT.180以上）＋鹹派甜塔任選一，雙重體驗！',en:'Choose 1 main (NT.180+) + any quiche or tart — the ultimate combo experience.',de:'1 Hauptgericht (NT.180+) + eine beliebige Quiche oder Tarte — das ultimative Kombi-Erlebnis.',es:'Elige 1 plato principal (NT.180+) + cualquier quiche o tarta — la combinación perfecta.'} },
   // bread
-  { id:'bread-001', category:'bread', names:{zh:'香蒜軟法',en:'Garlic Butter Baguette',ja:'ガーリックバターバゲット',de:'Knoblauch-Butter-Baguette',es:'Baguette de Ajo y Mantequilla'}, price:[{label:null,value:220}], emoji:'🥖', tags:['V'], note:{zh:'以自製蒜香奶油抹醬烤製，外表酥脆內裡鬆軟，入口充滿濃郁蒜香與奶油香氣。',en:'Baked with house garlic butter spread — crispy crust, fluffy inside, rich in garlic and butter.',ja:'自家製ガーリックバターで焼き上げた、外はカリッと中はふわっとしたバゲット。',de:'Mit hausgemachter Knoblauchbutter gebacken — knusprige Kruste, fluffiges Inneres, reich an Knoblauch und Butter.',es:'Horneada con mantequilla de ajo casera — corteza crujiente, interior esponjoso, rico en ajo y mantequilla.'} },
-  { id:'bread-002', category:'bread', names:{zh:'蜜芝麻乳酪軟法',en:'Honey Sesame Cheese Baguette',ja:'ハニーごまチーズバゲット',de:'Honig-Sesam-Käse-Baguette',es:'Baguette de Miel, Sésamo y Queso'}, price:[{label:null,value:300}], emoji:'🥖', tags:[], note:{zh:'蜂蜜芝麻與濃郁乳酪融合，外酥內軟，甜香的蜂蜜加上芝麻香氣。',en:'Sweet honey and sesame melded with rich cheese — crispy outside, soft inside.',ja:'はちみつ・ごまと濃厚チーズが融合した、外はカリッと中はモチモチのバゲット。',de:'Süßer Honig und Sesam mit reichhaltigem Käse verschmolzen — außen knusprig, innen weich.',es:'Miel dulce y sésamo fusionados con queso rico — crujiente por fuera, suave por dentro.'} },
-  { id:'bread-003', category:'bread', names:{zh:'煙燻雞肉起司軟法',en:'Smoked Chicken & Cheese Baguette',ja:'スモークチキン＆チーズバゲット',de:'Geräuchertes Hühnchen & Käse-Baguette',es:'Baguette de Pollo Ahumado y Queso'}, price:[{label:null,value:320}], emoji:'🥖', tags:[], note:{zh:'以煙燻雞肉加上濃郁起司烤製，外酥內軟，煙燻香氣與起司香氣完美融合。',en:'Smoked chicken and melted cheese baked into a crusty baguette — smoky, rich and satisfying.',ja:'スモークチキンと濃厚チーズを焼き込んだバゲット。スモーキーな香りが食欲をそそる。',de:'Geräuchertes Hühnchen und geschmolzener Käse in ein knuspriges Baguette gebacken — rauchig, reichhaltig und sättigend.',es:'Pollo ahumado y queso fundido horneados en una baguette crujiente — ahumada, rica y satisfactoria.'} },
+  { id:'bread-001', category:'bread', names:{zh:'香蒜軟法',en:'Garlic Butter Baguette',de:'Knoblauch-Butter-Baguette',es:'Baguette de Ajo y Mantequilla'}, price:[{label:null,value:220}], emoji:'🥖', tags:['V'], note:{zh:'以自製蒜香奶油抹醬烤製，外表酥脆內裡鬆軟，入口充滿濃郁蒜香與奶油香氣。',en:'Baked with house garlic butter spread — crispy crust, fluffy inside, rich in garlic and butter.',de:'Mit hausgemachter Knoblauchbutter gebacken — knusprige Kruste, fluffiges Inneres, reich an Knoblauch und Butter.',es:'Horneada con mantequilla de ajo casera — corteza crujiente, interior esponjoso, rico en ajo y mantequilla.'} },
+  { id:'bread-002', category:'bread', names:{zh:'蜜芝麻乳酪軟法',en:'Honey Sesame Cheese Baguette',de:'Honig-Sesam-Käse-Baguette',es:'Baguette de Miel, Sésamo y Queso'}, price:[{label:null,value:300}], emoji:'🥖', tags:[], note:{zh:'蜂蜜芝麻與濃郁乳酪融合，外酥內軟，甜香的蜂蜜加上芝麻香氣。',en:'Sweet honey and sesame melded with rich cheese — crispy outside, soft inside.',de:'Süßer Honig und Sesam mit reichhaltigem Käse verschmolzen — außen knusprig, innen weich.',es:'Miel dulce y sésamo fusionados con queso rico — crujiente por fuera, suave por dentro.'} },
+  { id:'bread-003', category:'bread', names:{zh:'煙燻雞肉起司軟法',en:'Smoked Chicken & Cheese Baguette',de:'Geräuchertes Hühnchen & Käse-Baguette',es:'Baguette de Pollo Ahumado y Queso'}, price:[{label:null,value:320}], emoji:'🥖', tags:[], note:{zh:'以煙燻雞肉加上濃郁起司烤製，外酥內軟，煙燻香氣與起司香氣完美融合。',en:'Smoked chicken and melted cheese baked into a crusty baguette — smoky, rich and satisfying.',de:'Geräuchertes Hühnchen und geschmolzener Käse in ein knuspriges Baguette gebacken — rauchig, reichhaltig und sättigend.',es:'Pollo ahumado y queso fundido horneados en una baguette crujiente — ahumada, rica y satisfactoria.'} },
 ];
 
 // ── STATE ────────────────────────────────────────────────────────────────
@@ -572,7 +569,7 @@ let scrollPos = 0;
 // ── HELPERS ───────────────────────────────────────────────────────────────
 function t(obj) { return obj[currentLang] || obj['zh'] || ''; }
 function fmtPrice(p) {
-  if (p === 'market') return { zh:'時價', en:'Market Price', ja:'時価', de:'Marktpreis', es:'Precio de mercado' }[currentLang];
+  if (p === 'market') return { zh:'時價', en:'Market Price', de:'Marktpreis', es:'Precio de mercado' }[currentLang];
   return 'NT$' + p;
 }
 
@@ -734,7 +731,7 @@ function openModal(item) {
     row.className = 'modal-price-row';
     const label = document.createElement('div');
     label.className = 'modal-price-label';
-    label.textContent = p.label ? t(p.label) : ({ zh:'價格', en:'Price', ja:'価格', de:'Preis', es:'Precio' }[currentLang]);
+    label.textContent = p.label ? t(p.label) : ({ zh:'價格', en:'Price', de:'Preis', es:'Precio' }[currentLang]);
     const val = document.createElement('div');
     val.className = 'modal-price-val';
     val.textContent = fmtPrice(p.value);
@@ -750,7 +747,7 @@ function openModal(item) {
   if (noteText) {
     const lbl = document.createElement('div');
     lbl.className = 'modal-note-label';
-    lbl.textContent = { zh:'關於此品項', en:'About', ja:'説明', de:'Über dieses Gericht', es:'Descripción' }[currentLang];
+    lbl.textContent = { zh:'關於此品項', en:'About', de:'Über dieses Gericht', es:'Descripción' }[currentLang];
     const txt = document.createElement('div');
     txt.textContent = noteText;
     descEl.appendChild(lbl);
